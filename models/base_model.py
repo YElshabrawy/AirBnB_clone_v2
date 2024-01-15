@@ -35,10 +35,10 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
+        output = self.__dict__.copy()
+        output['__class__'] = self.__class__.__name__
+        if "created_at" in output.keys():
+            output['created_at'] = output['created_at'].isoformat()
+        if "updated_at" in output.keys():
+            output['updated_at'] = output['updated_at'].isoformat()
+        return output
