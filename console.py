@@ -1,15 +1,12 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from pydoc import classname
 import sys
-from models.base_model import BaseModel
 from models.__init__ import storage
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
+from models.classes import CLASSES
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class HBNBCommand(cmd.Cmd):
@@ -18,11 +15,7 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+    classes = CLASSES
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
              'number_rooms': int, 'number_bathrooms': int,
@@ -133,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 d[key] = eval(val)
         new_instance = HBNBCommand.classes[clsName](**d)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
@@ -210,21 +203,17 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
+        argArr = args.split(" ")
+        clsName = argArr[0]
 
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
-        else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+        if clsName != "" and clsName not in CLASSES.keys():
+            print("** class doesn't exist **")
+            return
+        allCls = []
+        for _, clss in storage.all(clsName if clsName != "" else None).items():
+            allCls.append(str(clss))
+        print(allCls)
+        return
 
     def help_all(self):
         """ Help information for the all command """
