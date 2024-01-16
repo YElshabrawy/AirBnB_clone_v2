@@ -315,7 +315,8 @@ class TestConsole(unittest.TestCase):
             self.assertEqual("", f.getvalue())
 
         # with patch('sys.stdout', new=StringIO()) as f:
-        #     cmd = f"BaseModel.update(\"{b.id}\",\"first_name\",\"TutTrueee\")"
+        #     cmd = f"BaseModel
+        # .update(\"{b.id}\",\"first_name\",\"TutTrueee\")"
         #     HBNBCommand().onecmd(cmd)
         #     self.assertEqual("", f.getvalue())
 
@@ -349,7 +350,8 @@ class TestConsole(unittest.TestCase):
     @patch('sys.stdout', new_callable=StringIO)
     def test_cmd_create_with_params_new_feature(self, mock_stdout):
         '''Test create command with parameters (new feature)'''
-        self.console.onecmd("create InvalidClass invalid_param=\"invalid_value\"")
+        self.console \
+            .onecmd("create InvalidClass invalid_param=\"invalid_value\"")
         output = mock_stdout.getvalue().strip()
         self.assertEqual("** class doesn't exist **", output)
 
@@ -358,11 +360,11 @@ class TestConsole(unittest.TestCase):
         self.assertNotEqual("** class name missing **", output)
         self.assertNotEqual("** class doesn't exist **", output)
 
-        self.console.onecmd("create Place city_id=\"0001\" user_id=\"0001\" name=\"My_little_house\" number_rooms=4 number_bathrooms=2 max_guest=10 price_by_night=300 latitude=37.773972 longitude=-122.431297")
+        self.console \
+            .onecmd('''create Place city_id=\"0001\" user_id=\"0001\" name=\"My_little_house\" number_rooms=4 number_bathrooms=2 max_guest=10 price_by_night=300 latitude=37.773972 longitude=-122.431297''')
         output = mock_stdout.getvalue().strip()
         self.assertNotEqual("** class name missing **", output)
         self.assertNotEqual("** class doesn't exist **", output)
-
 
 
 if __name__ == '__main__':
