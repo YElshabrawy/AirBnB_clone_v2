@@ -135,31 +135,23 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, args):
         """ Method to show an individual object """
-        new = args.partition(" ")
-        c_name = new[0]
-        c_id = new[2]
-
-        # guard against trailing args
-        if c_id and ' ' in c_id:
-            c_id = c_id.partition(' ')[0]
-
-        if not c_name:
+        argArr = args.split(" ")
+        clsName = argArr[0]
+        if clsName == "":
             print("** class name missing **")
             return
-
-        if c_name not in HBNBCommand.classes:
+        if clsName not in CLASSES.keys():
             print("** class doesn't exist **")
             return
-
-        if not c_id:
+        if len(argArr) < 2:
             print("** instance id missing **")
             return
-
-        key = c_name + "." + c_id
-        try:
-            print(storage._FileStorage__objects[key])
-        except KeyError:
+        id = argArr[1]
+        keyFind = f"{clsName}.{id}"
+        if keyFind not in storage.all().keys():
             print("** no instance found **")
+            return
+        print(storage.all()[keyFind])
 
     def help_show(self):
         """ Help information for the show command """
@@ -223,7 +215,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k, v in storage.all().items():
             if args == k.split('.')[0]:
                 count += 1
         print(count)
