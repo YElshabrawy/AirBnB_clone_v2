@@ -212,7 +212,9 @@ class HBNBCommand(cmd.Cmd):
         allCls = []
         for _, clss in storage.all(clsName if clsName != "" else None).items():
             allCls.append(str(clss))
-        print(allCls)
+        print("[", end="")
+        print(", ".join(allCls), end="")
+        print("]")
         return
 
     def help_all(self):
