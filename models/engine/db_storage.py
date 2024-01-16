@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""This module defines a class to manage db for hbnb clone"""
+"""This module defines a class to manage file DB storage for hbnb clone"""
+
 from os import getenv
 from sqlalchemy import create_engine
 from models.base_model import BaseModel, Base
@@ -12,13 +13,19 @@ from models.review import Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+classes = {
+    'User': User, 'Place': Place,
+    'State': State, 'City': City, 'Amenity': Amenity,
+    'Review': Review
+}
+
 
 class DBStorage:
-    """This class manages storage of hbnb models in mysql db"""
+    """ Manages the database storge"""
     __engine = None
     __session = None
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Instantiate a DBStorage object"""
 
         dialect = 'mysql'
@@ -39,7 +46,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Query all"""
+        """Returns a dictionary of models currently in DB storage"""
         dic = {}
         if cls is None:
             classes = [State, City]
@@ -70,3 +77,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session)
+
+    def close(self):
+        """call remove() method on the private session"""
+        self.__session.close()
