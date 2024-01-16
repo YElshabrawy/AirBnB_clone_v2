@@ -133,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 d[key] = eval(val)
         new_instance = HBNBCommand.classes[clsName](**d)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
