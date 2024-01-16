@@ -5,8 +5,6 @@ from pydoc import classname
 import sys
 from models.__init__ import storage
 from models.classes import CLASSES
-# from dotenv import load_dotenv
-# load_dotenv()
 
 
 class HBNBCommand(cmd.Cmd):
@@ -26,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
-            print('(hbnb)')
+            print('(hbnb)', end=" ")
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
@@ -191,7 +189,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del (storage.all()[key])
+            storage.delete(storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")

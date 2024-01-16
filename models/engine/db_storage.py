@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 """This module defines a class to manage db for hbnb clone"""
 from os import environ
-from typing import List
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, scoped_session
+from models.amenity import Amenity
+from models.review import Review
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
 
 
 class DBStorage:
@@ -28,20 +33,23 @@ class DBStorage:
 
     def all(self, cls=None):
         """Query all"""
-        from models.classes import CLASSES
-        output = {}
-        total = []
-        if cls:
-            res = self.__session.query(CLASSES[cls]).all()
-            total.extend(res)
+        dic = {}
+        if cls is None:
+            classes = [State, City]
+            for model in classes:
+                for obj in self.__session.query(model).all():
+                    dic[f"{model.__name__}.{obj.id}"] = obj
         else:
-            for val in CLASSES.values():
-                res = self.__session.query(val).all()
-                total.extend(res)
-        for clss in total:
-            k = clss.__class__.__name__ + "." + clss.id
-            output[k] = clss
-        return output
+            if (isinstance(cls, str)):
+                result = self.__session.query(eval(cls)).all()
+            else:
+                result = self.__session.query(cls).all()
+
+            for r in result:
+                dic[f"{r.__class__.__name__}.{r.id}"] = r
+            return (dic)
+
+        return dic
 
     def new(self, obj):
         '''add obj to db'''
