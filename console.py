@@ -5,8 +5,8 @@ from pydoc import classname
 import sys
 from models.__init__ import storage
 from models.classes import CLASSES
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 
 class HBNBCommand(cmd.Cmd):
