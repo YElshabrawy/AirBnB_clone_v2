@@ -7,6 +7,7 @@ from datetime import datetime
 env.user = "ubuntu"
 env.hosts = ['54.236.207.221', '3.89.146.24']
 
+
 @task
 def do_pack():
     '''Function to generate a .tgz file'''
@@ -18,6 +19,7 @@ def do_pack():
         return None
     else:
         return filename
+
 
 @task
 def do_deploy(archive_path):
