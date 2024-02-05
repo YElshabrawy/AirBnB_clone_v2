@@ -33,6 +33,7 @@ def do_deploy(archive_path):
         folder_name = archive_name.split('.')[0]
         release_path = "/data/web_static/releases/{0}/".format(folder_name)
 
+        run('rm -rf {}'.format(release_path))
         run('mkdir -p {}'.format(release_path))
         run('tar -xzf /tmp/{} -C {}'.format(archive_name, release_path))
         run('rm /tmp/{}'.format(archive_name))
