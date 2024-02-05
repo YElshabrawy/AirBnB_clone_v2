@@ -1,12 +1,25 @@
 #!/usr/bin/python3
 '''m'''
 import os
-from fabric.api import put, run, env
+from fabric.api import put, run, env, task, local
+from datetime import datetime
 
 
 env.hosts = ['54.236.207.221', '3.89.146.24']
 
+@task
+def do_pack():
+    '''Function to generate a .tgz file'''
+    local("mkdir -p versions")
+    filename = "versions/web_static_{}.tgz" \
+        .format(datetime.now().strftime("%Y%m%d%H%M%S"))
+    result = local("tar -cvzf {} web_static".format(filename))
+    if result.failed:
+        return None
+    else:
+        return filename
 
+@task
 def do_deploy(archive_path):
     '''deploy to web server'''
     if not os.path.isfile(archive_path):
