@@ -10,7 +10,7 @@ env.hosts = ['54.236.207.221', '3.89.146.24']
 
 @task
 def do_pack():
-    """"""
+    """vv"""
     try:
         cur_date = datetime.now().strftime('%Y%m%d%H%M%S')
         arch = f'web_static_{cur_date}.tgz'
