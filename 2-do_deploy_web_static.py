@@ -2,7 +2,7 @@
 '''Deploy a compressed tar archive of web_static to web servers'''
 
 import os
-from fabric.api import put, run, env, task
+from fabric.api import put, run, env, task, local
 from datetime import datetime
 
 env.user = "ubuntu"
