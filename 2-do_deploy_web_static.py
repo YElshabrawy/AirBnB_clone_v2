@@ -3,7 +3,9 @@
 import os
 from fabric.api import put, run, env
 
+
 env.hosts = ['54.236.207.221', '3.89.146.24']
+
 
 def do_deploy(archive_path):
     '''deploy to web server'''
@@ -12,9 +14,9 @@ def do_deploy(archive_path):
 
     try:
         put(archive_path, '/tmp/')
-        archive_name = os.path.basename(archive_path) # web_static_2020.tgz
-        folder_name = archive_name.split('.')[0] # # web_static_2020
-        release_path = "/data/web_static/releases/{}/".format(folder_name) #/data/.../web_static
+        archive_name = os.path.basename(archive_path)
+        folder_name = archive_name.split('.')[0]
+        release_path = "/data/web_static/releases/{}/".format(folder_name)
 
         run(f'mkdir -p {release_path}')
         run(f'tar -xvzf /tmp/{archive_name} -C {release_path}')
