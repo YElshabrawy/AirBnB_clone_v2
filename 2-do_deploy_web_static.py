@@ -4,7 +4,6 @@ import os
 from fabric.api import put, run, env, task, local
 from datetime import datetime
 
-env.user = "ubuntu"
 env.hosts = ['54.236.207.221', '3.89.146.24']
 
 
@@ -33,7 +32,6 @@ def do_deploy(archive_path):
         folder_name = archive_name.split('.')[0]
         release_path = "/data/web_static/releases/{0}/".format(folder_name)
 
-        run('rm -rf {}'.format(release_path))
         run('mkdir -p {}'.format(release_path))
         run('tar -xzf /tmp/{} -C {}'.format(archive_name, release_path))
         run('rm /tmp/{}'.format(archive_name))
