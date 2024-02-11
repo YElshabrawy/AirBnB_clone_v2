@@ -24,7 +24,7 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     '''deploy to web server'''
-    if not os.path.isfile(archive_path):
+    if not os.path.exists(archive_path):
         return False
 
     try:
@@ -40,7 +40,7 @@ def do_deploy(archive_path):
         run('mv {}web_static/* {}'.format(release_path, release_path))
         run('rm -rf {}web_static'.format(release_path))
         run('rm -rf /data/web_static/current')
-        run('ln -s -f {} /data/web_static/current'.format(release_path))
+        run('ln -s {} /data/web_static/current'.format(release_path))
         print('New version deployed!')
         return True
     except Exception:
