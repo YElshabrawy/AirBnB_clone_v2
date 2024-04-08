@@ -29,8 +29,7 @@ for dir in "${directories[@]}"; do
 done
 
 # Create a fake HTML file
-echo "Hello World! Youssef was here!" | sudo tee /data/web_static/releases/test/index.html
-
+echo "<h1>Hello World! Youssef was here!</h1>" > /data/web_static/releases/test/index.html
 # Create a symbolic link
 sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
 
@@ -38,8 +37,12 @@ sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
-content="location /hbnb_static/ {\n\talias /data/web_static/current/;\n\t}"
-sudo sed -i "s|server_name _;|server_name _;\n\t$content|" /etc/nginx/sites-available/default
+# only write content if not already in the file
+if ! grep -q "location /hbnb_static/ {" /etc/nginx/sites-available/default
+then
+	content="location /hbnb_static/ {\n\talias /data/web_static/current/;\n\t}"
+	sudo sed -i "s|server_name _;|server_name _;\n\t$content|" /etc/nginx/sites-available/default
+fi
 
 # Restart Nginx
-sudo /etc/init.d/nginx restart
+sudo /etc/init.d/nginx restart > /dev/null
