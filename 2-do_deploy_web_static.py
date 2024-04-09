@@ -1,45 +1,31 @@
 #!/usr/bin/python3
-'''m'''
-import os
-from fabric.api import put, run, env, task, local
-from datetime import datetime
+'''deploy packed web_static to web servers'''
+from os import path
+from fabric.api import put, run, env
 
-env.hosts = ['54.236.207.221', '3.89.146.24']
-
-
-@task
-def do_pack():
-    '''Function to generate a .tgz file'''
-    local("mkdir -p versions")
-    filename = "versions/web_static_{}.tgz" \
-        .format(datetime.now().strftime("%Y%m%d%H%M%S"))
-    result = local("tar -cvzf {} web_static".format(filename))
-    if result.failed:
-        return None
-    else:
-        return filename
+env.hosts = ['3.90.84.154', '35.174.204.42']
+env.user = 'ubuntu'
 
 
-@task
 def do_deploy(archive_path):
     '''deploy to web server'''
-    if not os.path.exists(archive_path):
+    if not path.exists(archive_path):
         return False
-
     try:
         put(archive_path, '/tmp/')
-        archive_name = os.path.basename(archive_path)
-        folder_name = archive_name.split('.')[0]
-        release_path = "/data/web_static/releases/{}/".format(folder_name)
-
-        run('mkdir -p {}'.format(release_path))
-        run('tar -xzf /tmp/{} -C {}'.format(archive_name, release_path))
-        run('rm /tmp/{}'.format(archive_name))
-        run('mv {}web_static/* {}'.format(release_path, release_path))
-        run('rm -rf {}web_static'.format(release_path))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {} /data/web_static/current'.format(release_path))
+        filename_ext = archive_path.split('/')[-1]
+        filename = filename_ext.split('.')[0]
+        run(f'mkdir -p /data/web_static/releases/{filename}/')
+        run(f"tar -xzf /tmp/{filename_ext} \
+            -C /data/web_static/releases/{filename}/")
+        run(f"rm /tmp/{filename_ext}")
+        run(f"mv /data/web_static/releases/{filename}/web_static/* \
+            /data/web_static/releases/{filename}/")
+        run(f"rm -rf /data/web_static/releases/{filename}/web_static")
+        run(f"rm -rf /data/web_static/current")
+        run(f"ln -s /data/web_static/releases/{filename}/ \
+            /data/web_static/current")
         print('New version deployed!')
         return True
-    except Exception:
+    except Exception as e:
         return False
