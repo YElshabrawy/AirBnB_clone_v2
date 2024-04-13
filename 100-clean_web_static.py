@@ -6,6 +6,7 @@ from os import path
 
 env.hosts = ['3.90.84.154', '35.174.204.42']
 
+
 @task
 def do_pack():
     '''packs up all files from web_static into a .tgz archive'''
@@ -58,7 +59,8 @@ def do_clean(number=0):
         local(f'cd versions; ls -t | tail -n +{number} | xargs rm -rf --')
         for host in env.hosts:
             env.host_string = host
-            run(f'cd /data/web_static/releases; ls -t | tail -n +{number} | xargs rm -rf --')
+            run(f'cd /data/web_static/releases; ls -t | \
+                tail -n +{number} | xargs rm -rf --')
         return True
     except Exception as e:
         return False
