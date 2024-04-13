@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''clean up old versions of web_static'''
-from fabric.api import run, env, local, task
+from fabric.api import run, env, local, task, put
 from datetime import datetime
 from os import path
 
