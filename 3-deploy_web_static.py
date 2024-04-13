@@ -6,6 +6,7 @@ from datetime import datetime
 
 env.hosts = ['3.90.84.154', '35.174.204.42']
 
+
 @task
 def do_pack():
     '''packs up all files from web_static into a .tgz archive'''
@@ -13,6 +14,7 @@ def do_pack():
     local("mkdir -p versions")
     compressed = local(f"tar -cvzf versions/{filename} web_static")
     return f"versions/{filename}" if compressed.succeeded else None
+
 
 @task
 def do_deploy(archive_path):
@@ -34,6 +36,7 @@ def do_deploy(archive_path):
     /data/web_static/current')
     print('New version deployed!')
     return True
+
 
 @task
 def deploy():
