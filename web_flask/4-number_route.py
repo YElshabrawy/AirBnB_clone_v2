@@ -24,5 +24,18 @@ def html(text):
     return f'C {escape(text.replace("_", " "))}'
 
 
+@app.route('/python/', defaults={"text": "is cool"}, strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def res(text):
+    '''func'''
+    return f'Python {escape(text.replace("_", " "))}'
+
+
+@app.route('/number/<int:n>', strict_slashes=False)
+def page(n):
+    '''func'''
+    return f'{n} is a number'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

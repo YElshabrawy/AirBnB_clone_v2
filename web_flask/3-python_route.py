@@ -17,16 +17,19 @@ def hbnb():
     ''' Function that generates a page with a message '''
     return 'HBNB'
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def html(text):
     '''Function to return text'''
     return f'C {escape(text.replace("_", " "))}'
+
 
 @app.route('/python/', defaults={"text": "is cool"}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def res(text):
     '''func'''
     return f'Python {escape(text.replace("_", " "))}'
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
