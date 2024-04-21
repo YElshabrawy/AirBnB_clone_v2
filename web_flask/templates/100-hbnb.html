@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AirBnB Clone</title>
+	<link rel="stylesheet" href="../static/styles/4-common.css">
+	<link rel="stylesheet" href="../static/styles/3-header.css">
+	<link rel="stylesheet" href="../static/styles/3-footer.css">
+	<link rel="stylesheet" href="../static/styles/6-filters.css">
+	<link rel="stylesheet" href="../static/styles/8-places.css">
+	<link rel="icon" type="image/x-icon" href="../static/images/icon.ico">
+</head>
+
+<body>
+	<header></header>
+	<div class="container">
+		<section class="filters">
+			<div class="locations">
+				<h3>States</h3>
+				<h4>&nbsp;</h4>
+				<ul class="popover location_popover">
+					{% for s in states|sort(attribute="name") %}
+					<li>
+						<h2>{{ s.name }}</h2>
+						<ul>
+							{% for c in s.cities|sort(attribute="name") %}
+							<li>
+								<h4>{{ c.name }}</h4>
+							</li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="amenities">
+				<h3>Amenities</h3>
+				<h4>&nbsp;</h4>
+				<ul class="popover">
+					{% for a in amenities|sort(attribute="name") %}
+					<li>
+						<h5>{{ a.name }}</h5>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<button>Search</button>
+		</section>
+		<section class="places">
+			<h1>Places</h1>
+			{% for p in places|sort(attribute="name") %}
+			<article>
+				<div class="title">
+					<h2>{{ p.name }}</h2>
+					<div class="price_by_night">${{ p.price_by_night }}</div>
+				</div>
+				<div class="information">
+					<div>
+						<div class="max_guest"></div>
+						<p>{{ p.max_guest }} Guests</p>
+					</div>
+					<div>
+						<div class="number_rooms"></div>
+						<p>{{ p.number_rooms }} Bedroom</p>
+					</div>
+					<div>
+						<div class="number_bathrooms"></div>
+						<p>{{ p.number_bathrooms }} Bathrooms</p>
+					</div>
+				</div>
+				<div class="user"><b>Owner:</b> {{ p.user.name }}</div>
+				<div class="discription">
+					{{ p.description|safe }}
+				</div>
+			</article>
+			{% endfor %}
+			<!-- <article>
+				<div class="title">
+					<h2>Tiny House</h2>
+					<div class="price_by_night">$65</div>
+				</div>
+				<div class="information">
+					<div>
+						<div class="max_guest"></div>
+						<p>2 Guests</p>
+					</div>
+					<div>
+						<div class="number_rooms"></div>
+						<p>1 Bedroom</p>
+					</div>
+					<div>
+						<div class="number_bathrooms"></div>
+						<p>2 Bathrooms</p>
+					</div>
+				</div>
+				<div class="user"><b>Owner:</b> Ahmed Cena</div>
+				<div class="discription">
+					Lorem ipsum, dolor sit amet consectetur adipisicing
+					elit. Minima vero maiores aut itaque perspiciatis
+					repellendus? Quod, ullam! In veniam qui ab incidunt?
+					Neque similique tenetur consectetur aliquid nostrum
+					incidunt! Eligendi labore reprehenderit molestias odit
+					quidem, quibusdam blanditiis vero earum neque officia.
+					Iusto nam tempora eligendi quaerat nemo mollitia sequi
+					doloremque accusantium temporibus facilis, cupiditate
+					iure quisquam enim exercitationem deleniti et inventore
+					assumenda quis molestias quibusdam aperiam eaque
+					architecto nesciunt? Esse!
+				</div>
+			</article>
+			<article>
+				<div class="title">
+					<h2>A suite</h2>
+					<div class="price_by_night">$190</div>
+				</div>
+				<div class="information">
+					<div>
+						<div class="max_guest"></div>
+						<p>2 Guests</p>
+					</div>
+					<div>
+						<div class="number_rooms"></div>
+						<p>1 Bedroom</p>
+					</div>
+					<div>
+						<div class="number_bathrooms"></div>
+						<p>2 Bathrooms</p>
+					</div>
+				</div>
+				<div class="user"><b>Owner:</b> Ahmed Helmy</div>
+				<div class="discription">
+					Lorem ipsum, dolor sit amet consectetur adipisicing
+					elit. Voluptas assumenda unde consequatur quaerat atque
+					debitis suscipit? Nesciunt error odio repellat ullam
+					quod exercitationem hic assumenda molestiae quidem
+					maxime non sit obcaecati facilis, ipsum, consequuntur
+					ipsa ab architecto? Minima consectetur odio eaque ullam
+					nemo. Cumque nam reprehenderit inventore mollitia
+					aspernatur, explicabo consectetur earum cupiditate
+					temporibus distinctio harum. Provident, omnis quisquam
+					recusandae corrupti minima doloribus necessitatibus
+					tempora? Deleniti temporibus quidem reprehenderit. Porro
+					doloremque corrupti labore doloribus a error delectus
+					consequuntur deleniti, laudantium consectetur, veritatis
+					eius ut dolore quis totam, beatae iure dolorem impedit
+					exercitationem. Corporis nemo tempora voluptatibus nobis
+					tempore similique nisi!
+				</div>
+			</article> -->
+		</section>
+	</div>
+	<footer>Best School</footer>
+</body>
+
+</html>
