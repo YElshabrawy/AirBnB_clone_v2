@@ -18,9 +18,8 @@ def teardown_db(exception):
 @app.route('/states_list', strict_slashes=False)
 def page():
     states = storage.all(State)
-    print(states.values())
     return render_template('7-states_list.html', states=states.values())
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', 5000)
+    app.run(host='0.0.0.0', port=5000)
